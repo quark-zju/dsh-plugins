@@ -20,7 +20,7 @@
  *
  *   { action: 'session-cost', sessionId }  → one session's totals + per-model
  *   { action: 'dashboard', rangeDays? }    → global KPI / per-model / timeline
- *   { action: 'fx' }                       → effective USD→CNY rate
+ *   { action: 'fx' }                       → the USD-based fx rate table
  *
  * All monetary values are returned in USD (the pricing basis); the browser
  * converts to the user's chosen display currency with the served fx rate, so
@@ -71,7 +71,7 @@ const DEFAULT_MAX_RECORDS = 20000
 const DEFAULT_PREFS = {
   budgetAmount: 0,
   budgetPeriod: 'month',
-  budgetCurrency: 'CNY',
+  budgetCurrency: 'USD',
   // Every surface is opt-OUT: a cost plugin that shows nothing until it is
   // configured is a cost plugin that gets uninstalled.
   showDock: true,
@@ -91,7 +91,7 @@ function normalizePrefs(raw) {
       : 'month',
     budgetCurrency: typeof input.budgetCurrency === 'string' && input.budgetCurrency
       ? input.budgetCurrency
-      : 'CNY',
+      : 'USD',
     showDock: input.showDock !== false,
     showTurnCost: input.showTurnCost !== false,
     showView: input.showView !== false,

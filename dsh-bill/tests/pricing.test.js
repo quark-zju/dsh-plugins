@@ -74,10 +74,10 @@ assert(Math.abs(perM(satAfter).usd - 0.22) < 1e-6, '... and is billed at the off
 assert(peakStateFor('deepseek-v4-flash', sunAfter) === 'offpeak', 'a peak-hour Sunday after the change is off-peak')
 assert(Math.abs(perM(sunAfter).usd - 0.22) < 1e-6, '... and is billed at the off-peak rate')
 
-console.log('native currency')
-assert(currencyFor('deepseek-v4-flash') === 'CNY', 'deepseek prices in CNY')
-assert(currencyFor('gpt-5') === 'USD', 'gpt-5 prices in USD')
-assert(flat.base.currency === 'CNY', 'record base carries the native currency')
+console.log('display currency (USD plugin-wide)')
+assert(currencyFor('deepseek-v4-flash') === 'USD', 'deepseek base rate renders in USD')
+assert(currencyFor('gpt-5') === 'USD', 'gpt-5 base rate renders in USD')
+assert(flat.base.currency === 'USD', 'record base carries the display currency')
 
 console.log('unknown model')
 const unknown = priceRecord(rec('totally-made-up-model-xyz', beforePeak, { inputTokens: 1e6 }))

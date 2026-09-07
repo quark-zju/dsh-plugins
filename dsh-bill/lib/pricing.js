@@ -16,9 +16,9 @@
  *     outrank every catalogue.
  *
  * Currency handling stays here: llm-pricing is USD-internal (as is the whole
- * plugin API), but the dashboard shows each model's base rate in the currency
- * its vendor actually publishes, and the USD→* table below is what the
- * browser converts with.
+ * plugin API) and the plugin presents every amount — including each model's
+ * base rate — in USD, so the USD→* table below is what the browser converts
+ * with when the user picks another display currency.
  *
  * @module dsh-bill/pricing
  */
@@ -59,15 +59,15 @@ let epoch = 0
 
 /**
  * Vendors that publish their price list in a currency other than USD. The
- * stored rates are always USD (the pricing basis); this only decides which
+ * stored rates are always USD (the pricing basis); this decides which
  * currency the dashboard renders a model's *base rate* in, converting with
- * the fx table below.
+ * the fx table below. Today the plugin presents every amount in USD, so the
+ * list is empty — a vendor that prices natively elsewhere could be added here
+ * if this ever changes.
  */
-const NATIVE_CURRENCY_RULES = [
-  { test: (model) => model.includes('deepseek'), currency: 'CNY' },
-]
+const NATIVE_CURRENCY_RULES = []
 
-/** The currency a model's vendor publishes its price list in. */
+/** The currency a model's base rate renders in (USD plugin-wide). */
 export function currencyFor(model) {
   const name = String(model ?? '').toLowerCase()
   for (const rule of NATIVE_CURRENCY_RULES) {
@@ -202,7 +202,7 @@ export function priceRecord(rec) {
       inputPerM: price.inputCostPerToken * 1e6,
       outputPerM: price.outputCostPerToken * 1e6,
       cacheReadPerM: price.cacheReadInputCostPerToken * 1e6,
-      // Official pricing currency of this model (DeepSeek → CNY, others → USD)
+      // Currency this model's base rate renders in (USD plugin-wide).
       currency: currencyFor(model),
     },
   }

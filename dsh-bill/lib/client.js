@@ -283,7 +283,7 @@ window.__ModuleLoader__.load({
     }
 
     /** Currency picker order — most relevant first, everything else sorted. */
-    var CURRENCIES = ['CNY', 'USD', 'EUR', 'JPY', 'GBP', 'HKD', 'KRW', 'INR', 'SGD', 'TWD', 'AUD', 'CAD']
+    var CURRENCIES = ['USD', 'CNY', 'EUR', 'JPY', 'GBP', 'HKD', 'KRW', 'INR', 'SGD', 'TWD', 'AUD', 'CAD']
     var CURRENCY_SYMBOL = {
       CNY: '¥', USD: '$', EUR: '€', JPY: '¥', GBP: '£', HKD: 'HK$',
       KRW: '₩', INR: '₹', SGD: 'S$', TWD: 'NT$', AUD: 'A$', CAD: 'C$',
@@ -787,7 +787,7 @@ window.__ModuleLoader__.load({
      */
     var SURFACES = ['showDock', 'showTurnCost', 'showView', 'showSidebar']
     var PREFS_DEFAULT = {
-      budgetAmount: 0, budgetPeriod: 'month', budgetCurrency: 'CNY',
+      budgetAmount: 0, budgetPeriod: 'month', budgetCurrency: 'USD',
       showDock: true, showTurnCost: true, showView: true, showSidebar: true,
     }
     var prefs = PREFS_DEFAULT
@@ -986,7 +986,7 @@ window.__ModuleLoader__.load({
       var t = props.t || fallbackT
       var shown = useSurfaces()[0].showDock
       var sessionId = props.sessionId || (props.session && props.session.sessionId)
-      var currency = 'CNY'
+      var currency = 'USD'
       // The session half comes from the projection: pushed the moment a turn
       // closes, derived from the durable log (so it covers turns from before
       // this plugin was installed), and free of a timer. The all-time half has
@@ -1113,7 +1113,7 @@ window.__ModuleLoader__.load({
       // call at all (a rejected or empty turn). Both are "nothing to say".
       if (!row || row.usd === null || !(row.usd > 0)) return null
 
-      var currency = 'CNY'
+      var currency = 'USD'
       var fx = FX_FALLBACK
       var cacheHit = cacheHitPct(row.cacheReadTokens, row.inputTokens, row.cacheWriteTokens)
       var items = [
@@ -1189,7 +1189,7 @@ window.__ModuleLoader__.load({
         wide ? el('span', { style: { color: T.label3, flexShrink: 0 } }, t('sidebar.today')) : null,
         wide
           ? el('span', { style: N.xsStrong },
-              fmtCost(todayUsd, budget.currency || 'CNY', fx))
+              fmtCost(todayUsd, budget.currency || 'USD', fx))
           : null,
         pct !== null
           ? el('span', {
@@ -1701,7 +1701,7 @@ window.__ModuleLoader__.load({
       var range = React.useState(30)
       var rangeDays = range[0]
       var setRange = range[1]
-      var cur = React.useState('CNY')
+      var cur = React.useState('USD')
       var currency = cur[0]
       var setCurrency = cur[1]
       var budgetPair = useBudget()
