@@ -1,0 +1,49 @@
+import { createHash } from "node:crypto";
+import { mkdir, readFile, rename, unlink, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
+//#region src/node.ts
+/**
+* Node-only entry point: `import { fileCache } from 'llm-pricing/node'`.
+*
+* Kept out of the main entry so the core stays free of `node:` imports and
+* still bundles for workers and the browser.
+*/
+/** Distinguishes concurrent writes to one key within a process. */
+let writes = 0;
+/**
+* A catalogue cache backed by files on disk.
+*
+* Survives restarts, and is shared by every process pointed at the same
+* directory — a PM2 cluster downloads the catalogue once rather than once
+* per worker.
+*
+* Writes are atomic (write to a temp name, then rename), so a process
+* killed mid-write leaves the previous entry intact rather than a
+* truncated one. A missing, unreadable or corrupt file is a cache miss.
+*/
+function fileCache(dir = path.join(tmpdir(), "llm-pricing-cache")) {
+	const pathFor = (key) => path.join(dir, `${createHash("sha256").update(key).digest("hex").slice(0, 32)}.json`);
+	return {
+		async get(key) {
+			try {
+				return await readFile(pathFor(key), "utf8");
+			} catch {
+				return null;
+			}
+		},
+		async set(key, value) {
+			const target = pathFor(key);
+			const temp = `${target}.${process.pid}.${(writes++).toString(36)}.tmp`;
+			try {
+				await mkdir(dir, { recursive: true });
+				await writeFile(temp, value, "utf8");
+				await rename(temp, target);
+			} catch {
+				await unlink(temp).catch(() => {});
+			}
+		}
+	};
+}
+//#endregion
+export { fileCache };
