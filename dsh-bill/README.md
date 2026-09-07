@@ -16,6 +16,8 @@ dsh plugin --profile web add dsh-bill
 
 Restart `dsh web` to pick it up.
 
+`llm-pricing` is vendored under `vendor/` (MIT, Jannchie), so there is **no dependency install step** — the price catalogue is fetched live and cached at runtime.
+
 ## Features
 
 - **Cost attribution** — the bill split by kind of content: tool output, model output, system prompt, terminal commands (grouped by `git` / `pnpm` / `rg`), tool input, attachments, system reminders, user input. The sunburst drills in.

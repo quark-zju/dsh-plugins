@@ -16,6 +16,8 @@ dsh plugin --profile web add dsh-bill
 
 重启 `dsh web` 生效。
 
+`llm-pricing` 已内置于 `vendor/`(MIT,Jannchie),**无需安装任何依赖** —— 价格目录在运行时实时拉取并缓存。
+
 ## 功能
 
 - **成本归因** —— 按内容类型拆分账单:工具输出、模型输出、系统提示词、终端命令(按 `git` / `pnpm` / `rg` 分组)、工具输入、附件、系统提醒、用户输入。旭日图可下钻。

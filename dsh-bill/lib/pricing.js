@@ -23,9 +23,14 @@
  * @module dsh-bill/pricing
  */
 
-import { PricingCatalog, modelsDevSource, openRouterSource } from 'llm-pricing'
-import { isPeakHour, periodAt } from 'llm-pricing/internal'
-import { fileCache } from 'llm-pricing/node'
+// llm-pricing is vendored under vendor/ (MIT, Jannchie) so this plugin ships
+// zero external runtime dependencies: the price catalogue is fetched live and
+// cached, and only this parsing adapter is bundled. Imported by relative path
+// because the plugin is symlinked into a DSH profile, where a bare specifier
+// would try to walk up to a node_modules that the runtime never installs.
+import { PricingCatalog, modelsDevSource, openRouterSource } from '../vendor/llm-pricing/dist/index.mjs'
+import { isPeakHour, periodAt } from '../vendor/llm-pricing/dist/internal.mjs'
+import { fileCache } from '../vendor/llm-pricing/dist/node.mjs'
 
 /**
  * models.dev is the primary catalogue: it quotes every provider separately,

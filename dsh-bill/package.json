@@ -37,9 +37,6 @@
   "engines": {
     "node": ">=20"
   },
-  "dependencies": {
-    "llm-pricing": "^0.17.0"
-  },
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
@@ -53,6 +50,7 @@
   },
   "files": [
     "lib",
+    "vendor",
     "cordis.patch.yml",
     "README.md",
     "README.zh.md",
