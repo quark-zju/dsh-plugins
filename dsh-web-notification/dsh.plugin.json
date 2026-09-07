@@ -1,0 +1,12 @@
+{
+  "name": "dsh-web-notification",
+  "description": "System-level Web Notification when the model finishes a reply",
+  "version": "0.1.0",
+  "entry": {
+    "name": "dsh-web-notification",
+    "inject": []
+  },
+  "client": {
+    "platform": "web"
+  }
+}

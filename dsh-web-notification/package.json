@@ -1,0 +1,42 @@
+{
+  "name": "dsh-web-notification",
+  "description": "System-level Web Notification when the model finishes a reply in the DeepSeek Harness web GUI",
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "dsh.plugin.json",
+    "CHANGELOG.md",
+    "CHANGELOG.zh.md",
+    "README.md",
+    "README.zh.md",
+    "LICENSE",
+    "screenshot.png"
+  ]
+}
